@@ -16,7 +16,7 @@
     <param name="paused" type="bool" value="false" />
     <param name="rate" type="int" value="5" />
     <param name="linearSpeed" type="double" value="0.2" />
-    <param name="angularSpeed" type="double" value="0.2" />
+    <param name="angularSpeed" type="double" value="0.4" />
     <param name="linearStep" type="double" value="0.1" />
     <param name="author" type="string" value="center" />
     <param name="cmd_csv_path" type="string" value="$(find exbotxi_recognition)/include/commands.csv" />

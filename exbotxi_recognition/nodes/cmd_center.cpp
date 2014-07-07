@@ -74,11 +74,11 @@ void loadCommandsFile(std::string path)
 
 int sec = 0;
 std::string cmd;
-// skip the duplicate command in 2 secs. check success will return true
+// skip the duplicate command in 1 secs. check success will return true
 bool checkCmd(std::string tcmd)
 {
   int tsec = ros::Time::now().sec;
-  if (tsec - sec < 2)
+  if (tsec - sec < 1)
   {
     std_msgs::String response;
     response.data = "Reject commands " + tcmd;
