@@ -1,0 +1,35 @@
+<launch>
+  <node pkg="exbotxi_recognition" name="vel_center" type="vel_center" output="screen" >
+    <param name="minLinear" type="double" value="0.03" />
+    <param name="minAngular" type="double" value="0.05" />
+    <param name="maxLinear" type="double" value="0.5" />
+    <param name="maxAngular" type="double" value="3.0" />
+    <!-- default 0.25 -->
+    <param name="accelerateLinear" type="double" value="0.5" />
+    <!-- default 1 -->
+    <param name="accelerateAngular" type="double" value="2" />
+    <param name="rate" type="int" value="10" />
+    <param name="vel_out" value="avoidence_base/vel_in" />
+  </node>
+  
+  <node pkg="exbotxi_recognition" name="cmd_center" type="cmd_center" output="screen" >
+    <param name="paused" type="bool" value="false" />
+    <param name="rate" type="int" value="5" />
+    <param name="linearSpeed" type="double" value="0.2" />
+    <param name="angularSpeed" type="double" value="0.2" />
+    <param name="linearStep" type="double" value="0.1" />
+    <param name="author" type="string" value="center" />
+    <param name="cmd_csv_path" type="string" value="$(find exbotxi_recognition)/include/commands.csv" />
+  </node>
+  
+  <node pkg="exbotxi_avoidence" type="avoidence_base" name="avoidence_base" output="screen">
+    <param name="limit_range1" value="0.3"/>
+    <param name="limit_range2" value="0.8"/>
+    <param name="limit_points1" value="5"/>
+    <param name="limit_points2" value="10"/>
+    <param name="angle_speed" value="0.6"/>
+    <param name="scan_in" value="scan"/>
+    <param name="vel_in" value="avoidence_base/vel_in"/>
+    <param name="vel_out" value="cmd_vel"/>
+  </node>
+</launch>
