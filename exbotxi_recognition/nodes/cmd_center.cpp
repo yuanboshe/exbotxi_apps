@@ -2,6 +2,7 @@
 #include <std_msgs/String.h>
 #include <sensor_msgs/Image.h>
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <exbotxi_recognition/TwistWithMask.h>
 #include "csvparser.h"
 #include <iostream>
@@ -19,6 +20,7 @@ ros::Publisher authorPub;
 ros::Publisher goalVelPub;
 ros::Publisher goalVelMaskPub;
 ros::Publisher speaker;
+ros::Publisher simpleGoal;
 
 void pubGoalVel(double lx, double ly, double az)
 {
@@ -185,6 +187,40 @@ void recogCallback(const std_msgs::String::ConstPtr& msg)
       // Empty, just speak back
     }
   }
+  else if (cmd == "gopanpan")
+  {
+    if (checkCmd("gopanpan"))
+    {
+      geometry_msgs::PoseStamped pose;
+      pose.header.frame_id = "map";
+      pose.pose.position.x = -7.2;
+      pose.pose.position.y = -3.8;
+      pose.pose.orientation.w = 1;
+      simpleGoal.publish(pose);
+    }
+  }
+  else if (cmd == "goyutou")
+  {
+    if (checkCmd("goyutou"))
+    {
+      geometry_msgs::PoseStamped pose;
+      pose.header.frame_id = "map";
+      pose.pose.position.x = -1.5;
+      pose.pose.position.y = -3.6;
+      pose.pose.orientation.w = 1;
+      simpleGoal.publish(pose);
+    }
+  }
+  else if (cmd == "goback")
+  {
+    if (checkCmd("goback"))
+    {
+      geometry_msgs::PoseStamped pose;
+      pose.header.frame_id = "map";
+      pose.pose.orientation.w = 1;
+      simpleGoal.publish(pose);
+    }
+  }
   else
     skipFlag = false;
 
@@ -240,10 +276,11 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "cmd_center");
   ros::NodeHandle nh;
   ros::Subscriber recogSub = nh.subscribe("/recognizer/output", 1, recogCallback);
-  authorPub = nh.advertise < std_msgs::String > ("/cmd_center/author", 1);
-  goalVelPub = nh.advertise < geometry_msgs::Twist > ("/goal_vel", 1);
-  goalVelMaskPub = nh.advertise < exbotxi_recognition::TwistWithMask > ("/goal_vel_mask", 1);
-  speaker = nh.advertise < std_msgs::String > ("voice_synthesis", 10);
+  authorPub = nh.advertise<std_msgs::String>("/cmd_center/author", 1);
+  goalVelPub = nh.advertise<geometry_msgs::Twist>("/goal_vel", 1);
+  goalVelMaskPub = nh.advertise<exbotxi_recognition::TwistWithMask>("/goal_vel_mask", 1);
+  speaker = nh.advertise<std_msgs::String>("voice_synthesis", 10);
+  simpleGoal = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1);
 
   // Get params
   ros::NodeHandle ph("~");
